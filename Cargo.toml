@@ -1,0 +1,13 @@
+[package]
+name = "wave_function_collapse"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cairo-rs = { version = "0.15.12", features = ["png"] }
+enum-map = { version = "2.4.0", features = ["serde"] }
+serde = { version = "1.0.138", features = ["derive"] }
+gtk = "0.15.5"
+serde_json = "1.0.82"
