@@ -52,9 +52,16 @@ pub struct TileSetData {
     pub tiles: Vec<TileData>,
 }
 
-fn transform_image(image: &ImageSurface, scale: i32, rotation: i8) -> Result<ImageSurface, Box<dyn Error>> {
-    let new_rotation =
-        ImageSurface::create(Format::ARgb32, image.width() * scale, image.height() * scale)?;
+fn transform_image(
+    image: &ImageSurface,
+    scale: i32,
+    rotation: i8,
+) -> Result<ImageSurface, Box<dyn Error>> {
+    let new_rotation = ImageSurface::create(
+        Format::ARgb32,
+        image.width() * scale,
+        image.height() * scale,
+    )?;
     {
         let ctx = Context::new(&new_rotation)?;
         let scale = scale as f64;
@@ -87,9 +94,9 @@ pub fn load_all_tiles(dir: &Path, scale: i32) -> Result<TileSetData, Box<dyn Err
         }
     }
 
-    let background = data
-        .background
-        .map(|background| transform_image(&load_image(&dir.join(background)).unwrap(), scale, 0).unwrap());
+    let background = data.background.map(|background| {
+        transform_image(&load_image(&dir.join(background)).unwrap(), scale, 0).unwrap()
+    });
 
     Ok(TileSetData { tiles, background })
 }

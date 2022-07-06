@@ -18,8 +18,16 @@ pub mod tile_data;
 pub mod tile_grid;
 use tile_grid::TileGrid;
 
-fn build_ui(application: &gtk::Application, dir: &Path, skip_draw: usize, width: usize, height: usize, scale: usize) {
-    let mut tile_set = tile_data::load_all_tiles(dir, scale as i32).expect("Error while loading TileSet");
+fn build_ui(
+    application: &gtk::Application,
+    dir: &Path,
+    skip_draw: usize,
+    width: usize,
+    height: usize,
+    scale: usize,
+) {
+    let mut tile_set =
+        tile_data::load_all_tiles(dir, scale as i32).expect("Error while loading TileSet");
     let tiles = tile_set.tiles.drain(..).map(|t| Rc::new(t)).collect();
     let grid = Rc::new(TileGrid::new(&tiles, width, height));
     let reference = &tiles[0].image;

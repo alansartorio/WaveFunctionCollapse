@@ -1,8 +1,6 @@
-use enum_map::Enum;
-use serde::{Serialize, Deserialize};
 use enum_iterator::Sequence;
-
-
+use enum_map::Enum;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, Sequence, Enum, Serialize, Deserialize)]
 pub enum Direction {
