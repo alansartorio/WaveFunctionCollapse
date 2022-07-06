@@ -18,10 +18,10 @@ pub mod tile_data;
 pub mod tile_grid;
 use tile_grid::TileGrid;
 
-fn build_ui(application: &gtk::Application, dir: &Path, skip_draw: usize, size: usize, scale: usize) {
+fn build_ui(application: &gtk::Application, dir: &Path, skip_draw: usize, width: usize, height: usize, scale: usize) {
     let mut tile_set = tile_data::load_all_tiles(dir, scale as i32).expect("Error while loading TileSet");
     let tiles = tile_set.tiles.drain(..).map(|t| Rc::new(t)).collect();
-    let grid = Rc::new(TileGrid::new(&tiles, size, size));
+    let grid = Rc::new(TileGrid::new(&tiles, width, height));
     let reference = &tiles[0].image;
     let cell_size = (reference.width() as usize, reference.height() as usize);
 
@@ -66,8 +66,8 @@ fn build_ui(application: &gtk::Application, dir: &Path, skip_draw: usize, size: 
 
     drawable(
         application,
-        height,
         width,
+        height,
         {
             let grid = grid.clone();
             move |da, cr| {
@@ -125,8 +125,10 @@ struct Args {
     dir: PathBuf,
     #[clap(long, default_value_t = 1)]
     skip_draw: usize,
-    #[clap(short = 's', long, default_value_t = 20)]
-    size: usize,
+    #[clap(short, long, default_value_t = 20)]
+    width: usize,
+    #[clap(short, long, default_value_t = 20)]
+    height: usize,
     #[clap(short = 'z', long, default_value_t = 1)]
     scale: usize,
 }
@@ -142,7 +144,7 @@ fn main() {
 
     application.connect_activate({
         let dir = dir.clone();
-        move |a| build_ui(a, &dir, args.skip_draw, args.size, args.scale)
+        move |a| build_ui(a, &dir, args.skip_draw, args.width, args.height, args.scale)
     });
 
     application.run_with_args::<String>(&[]);

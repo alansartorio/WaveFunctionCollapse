@@ -69,6 +69,19 @@ pub struct FileData {
     pub tiles: Vec<TileEntry>,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+enum FileDataTypes {
+    WithBackground(FileData),
+    WithoutBackground(Vec<TileEntry>),
+}
+
 pub fn parse_tiles<R: Read>(r: R) -> Result<FileData, serde_json::Error> {
-    serde_json::from_reader(r)
+    serde_json::from_reader(r).map(|d| match d {
+        FileDataTypes::WithoutBackground(tiles) => FileData {
+            tiles,
+            background: None,
+        },
+        FileDataTypes::WithBackground(e) => e,
+    })
 }
