@@ -3,6 +3,8 @@ use gtk::DrawingArea;
 
 use gtk::cairo::{Context, ImageSurface};
 use std::iter::zip;
+use std::path::Path;
+use std::path::PathBuf;
 use std::rc::Rc;
 use tile_data::TileData;
 
@@ -12,8 +14,8 @@ pub mod tile_data;
 pub mod tile_grid;
 use tile_grid::TileGrid;
 
-fn build_ui(application: &gtk::Application) {
-    let tiles = tile_data::load_all_tiles(1)
+fn build_ui(application: &gtk::Application, dir: &Path) {
+    let tiles = tile_data::load_all_tiles(dir, 1)
         .unwrap()
         .drain(..)
         .map(|t| Rc::new(t))
@@ -81,15 +83,30 @@ fn build_ui(application: &gtk::Application) {
     });
 }
 
+use clap::{Parser, ValueHint::DirPath};
+
+#[derive(Parser)]
+#[clap(author, version, about, long_about = None)]
+struct Args {
+    #[clap(short, long, parse(from_os_str), value_hint = DirPath)]
+    dir: PathBuf,
+}
+
 fn main() {
     let application = gtk::Application::new(
         Some("com.github.gtk-rs.examples.cairotest"),
         Default::default(),
     );
 
-    application.connect_activate(build_ui);
+    let args = Args::parse();
+    let dir = Rc::new(args.dir);
 
-    application.run();
+    application.connect_activate({
+        let dir = dir.clone();
+        move |a| build_ui(a, &dir)
+    });
+
+    application.run_with_args::<String>(&[]);
 }
 
 pub fn drawable<F>(application: &gtk::Application, width: i32, height: i32, draw_fn: F)

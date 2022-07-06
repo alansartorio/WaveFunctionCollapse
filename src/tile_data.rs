@@ -1,17 +1,16 @@
+use crate::direction::Direction;
+use crate::parse_json;
+use cairo::{Context, Filter, Format, ImageSurface, SurfacePattern};
 use enum_map::enum_map;
 use enum_map::EnumMap;
 use std::error::Error;
-use cairo::{Filter, Format, ImageSurface, SurfacePattern, Context};
 use std::f64::consts::PI;
 use std::fs::File;
-use crate::direction::Direction;
-use crate::parse_json;
+use std::path::Path;
+use std::path::PathBuf;
 
-fn load_image(name: &str) -> Result<ImageSurface, Box<dyn Error>> {
-    Ok(ImageSurface::create_from_png(&mut File::open(format!(
-        "images/{}",
-        name
-    ))?)?)
+fn load_image(name: &Path) -> Result<ImageSurface, Box<dyn Error>> {
+    Ok(ImageSurface::create_from_png(&mut File::open(name)?)?)
 }
 
 pub type Socket = String;
@@ -49,12 +48,12 @@ pub struct TileData {
     pub weight: f64,
 }
 
-pub fn load_all_tiles(scale: i32) -> Result<Vec<TileData>, Box<dyn Error>> {
+pub fn load_all_tiles(dir: &Path, scale: i32) -> Result<Vec<TileData>, Box<dyn Error>> {
     let mut tiles = vec![];
 
-    let data = parse_json::parse_tiles(&File::open("images/tiles.json")?)?;
+    let data = parse_json::parse_tiles(&File::open(&dir.join("tiles.json"))?)?;
     for tile in data {
-        let img = load_image(&tile.file)?;
+        let img = load_image(&dir.join(tile.file))?;
         for rotation in tile.rotations {
             let new_rotation =
                 ImageSurface::create(Format::ARgb32, img.width() * scale, img.height() * scale)?;
@@ -81,4 +80,3 @@ pub fn load_all_tiles(scale: i32) -> Result<Vec<TileData>, Box<dyn Error>> {
 
     Ok(tiles)
 }
-
