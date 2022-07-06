@@ -14,6 +14,8 @@ use crate::direction::Direction;
 
 type Neighbor = Option<Weak<Cell>>;
 
+pub struct ContradictionError;
+
 pub struct Cell {
     pub options: RefCell<Vec<Rc<TileData>>>,
     sides: EnumMap<Direction, RefCell<Neighbor>>,
@@ -47,16 +49,17 @@ impl Cell {
         self.options.borrow().len()
     }
 
-    pub fn collapse_random(&self) {
+    pub fn collapse_random(&self) -> Result<(), ContradictionError> {
         let mut rng = thread_rng();
         let value = self
             .options
             .borrow()
             .choose_weighted(&mut rng, |tile| tile.weight)
-            .expect("Can't collapse empty cell!")
+            .map_err(|_| ContradictionError)?
             .clone();
         *self.options.borrow_mut() = vec![value];
         self.notify_neighbors();
+        Ok(())
     }
 
     fn notify_neighbors(&self) {
@@ -135,7 +138,7 @@ impl TileGrid {
         self.grid.raw_dim()[0]
     }
 
-    pub fn collapse_lowest_entropy(&self) {
+    pub fn collapse_lowest_entropy(&self) -> Result<(), ContradictionError> {
         if let Some(min_entropy) = self
             .grid
             .iter()
@@ -146,8 +149,16 @@ impl TileGrid {
             let min_values = self.grid.iter().filter(|c| c.entropy() == min_entropy);
             let mut rng = thread_rng();
             if let Some(random_cell) = min_values.choose(&mut rng) {
-                random_cell.collapse_random();
+                random_cell.collapse_random()?;
             }
+        }
+        Ok(())
+    }
+
+    pub fn reset(&self) {
+        for cell in &self.grid {
+            let mut opt = cell.options.borrow_mut();
+            *opt = self.tiles.clone();
         }
     }
 }

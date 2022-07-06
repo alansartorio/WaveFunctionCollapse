@@ -7,7 +7,6 @@ use std::error::Error;
 use std::f64::consts::PI;
 use std::fs::File;
 use std::path::Path;
-use std::path::PathBuf;
 
 fn load_image(name: &Path) -> Result<ImageSurface, Box<dyn Error>> {
     Ok(ImageSurface::create_from_png(&mut File::open(name)?)?)
@@ -48,35 +47,49 @@ pub struct TileData {
     pub weight: f64,
 }
 
-pub fn load_all_tiles(dir: &Path, scale: i32) -> Result<Vec<TileData>, Box<dyn Error>> {
+pub struct TileSetData {
+    pub background: Option<ImageSurface>,
+    pub tiles: Vec<TileData>,
+}
+
+fn transform_image(image: &ImageSurface, scale: i32, rotation: i8) -> Result<ImageSurface, Box<dyn Error>> {
+    let new_rotation =
+        ImageSurface::create(Format::ARgb32, image.width() * scale, image.height() * scale)?;
+    {
+        let ctx = Context::new(&new_rotation)?;
+        let scale = scale as f64;
+        let sp = SurfacePattern::create(&image);
+        sp.set_filter(Filter::Nearest);
+
+        ctx.scale(scale, scale);
+        ctx.translate(image.width() as f64 / 2.0, image.height() as f64 / 2.0);
+        ctx.rotate(rotation as f64 * PI / 2.0);
+        ctx.translate(-image.width() as f64 / 2.0, -image.height() as f64 / 2.0);
+        ctx.set_source(&sp)?;
+        ctx.paint()?;
+    }
+    Ok(new_rotation)
+}
+
+pub fn load_all_tiles(dir: &Path, scale: i32) -> Result<TileSetData, Box<dyn Error>> {
     let mut tiles = vec![];
 
     let data = parse_json::parse_tiles(&File::open(&dir.join("tiles.json"))?)?;
-    for tile in data {
+    for tile in data.tiles {
         let img = load_image(&dir.join(tile.file))?;
         for rotation in tile.rotations {
-            let new_rotation =
-                ImageSurface::create(Format::ARgb32, img.width() * scale, img.height() * scale)?;
-            {
-                let ctx = Context::new(&new_rotation)?;
-                let scale = scale as f64;
-                let sp = SurfacePattern::create(&img);
-                sp.set_filter(Filter::Nearest);
-
-                ctx.scale(scale, scale);
-                ctx.translate(img.width() as f64 / 2.0, img.height() as f64 / 2.0);
-                ctx.rotate(rotation as f64 * PI / 2.0);
-                ctx.translate(-img.width() as f64 / 2.0, -img.height() as f64 / 2.0);
-                ctx.set_source(&sp)?;
-                ctx.paint()?;
-            }
+            let image = transform_image(&img, scale, rotation)?;
             tiles.push(TileData {
-                image: new_rotation,
+                image,
                 sockets: tile.sockets.rotate_n(rotation as u8),
                 weight: tile.weight,
             });
         }
     }
 
-    Ok(tiles)
+    let background = data
+        .background
+        .map(|background| transform_image(&load_image(&dir.join(background)).unwrap(), scale, 0).unwrap());
+
+    Ok(TileSetData { tiles, background })
 }

@@ -63,6 +63,12 @@ pub struct TileEntry {
     pub weight: f64,
 }
 
-pub fn parse_tiles<R: Read>(r: R) -> Result<Vec<TileEntry>, serde_json::Error> {
+#[derive(Debug, Serialize, Deserialize)]
+pub struct FileData {
+    pub background: Option<String>,
+    pub tiles: Vec<TileEntry>,
+}
+
+pub fn parse_tiles<R: Read>(r: R) -> Result<FileData, serde_json::Error> {
     serde_json::from_reader(r)
 }
