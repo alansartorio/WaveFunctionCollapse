@@ -1,0 +1,220 @@
+[
+  {
+    "file": "wire.png",
+    "sockets": {
+      "Up": "GGG",
+      "Right": "GBG",
+      "Down": "GGG",
+      "Left": "GBG"
+    },
+    "rotations": [0, 1],
+    "weight": 0.5
+  },
+  {
+    "file": "vias.png",
+    "sockets": {
+      "Up": "GTG",
+      "Right": "GGG",
+      "Down": "GGG",
+      "Left": "GGG"
+    },
+    "rotations": "All",
+    "weight": 0.3
+  },
+  {
+    "file": "viad.png",
+    "sockets": {
+      "Up": "GGG",
+      "Right": "GTG",
+      "Down": "GGG",
+      "Left": "GTG"
+    },
+    "rotations": [0, 1],
+    "weight": 0.1
+  },
+  {
+    "file": "turn.png",
+    "sockets": {
+      "Up": "GTG",
+      "Right": "GTG",
+      "Down": "GGG",
+      "Left": "GGG"
+    },
+    "rotations": "All",
+    "weight": 1
+  },
+  {
+    "file": "transition.png",
+    "sockets": {
+      "Up": "GBG",
+      "Right": "GGG",
+      "Down": "GTG",
+      "Left": "GGG"
+    },
+    "rotations": "All",
+    "weight": 0.4
+  },
+  {
+    "file": "track.png",
+    "sockets": {
+      "Up": "GTG",
+      "Right": "GGG",
+      "Down": "GTG",
+      "Left": "GGG"
+    },
+    "rotations": [0, 1],
+    "weight": 2
+  },
+  {
+    "file": "t.png",
+    "sockets": {
+      "Up": "GGG",
+      "Right": "GTG",
+      "Down": "GTG",
+      "Left": "GTG"
+    },
+    "rotations": "All",
+    "weight": 0.1
+  },
+  {
+    "file": "substrate.png",
+    "sockets": {
+      "Up": "GGG",
+      "Right": "GGG",
+      "Down": "GGG",
+      "Left": "GGG"
+    },
+    "weight": 2
+  },
+  {
+    "file": "skew.png",
+    "sockets": {
+      "Up": "GTG",
+      "Right": "GTG",
+      "Down": "GGG",
+      "Left": "GGG"
+    },
+    "rotations": "All",
+    "weight": 2
+  },
+  {
+    "file": "dskew.png",
+    "sockets": {
+      "Up": "GTG",
+      "Right": "GTG",
+      "Down": "GTG",
+      "Left": "GTG"
+    },
+    "rotations": [0, 1],
+    "weight": 2
+  },
+  {
+    "file": "corner.png",
+    "sockets": {
+      "Up": "GGG",
+      "Right": "GGG",
+      "Down": "12",
+      "Left": "34"
+    },
+    "rotations": "All",
+    "weight": 10
+  },
+  {
+    "file": "connection.png",
+    "sockets": {
+      "Up": "GTG",
+      "Right": "43",
+      "Down": "#EEE",
+      "Left": "21"
+    },
+    "rotations": "All",
+    "weight": 0.1
+  },
+  {
+    "file": "connection.png",
+    "sockets": {
+      "Up": "GTG",
+      "Right": "12",
+      "Down": "#EEE",
+      "Left": "21"
+    },
+    "rotations": "All",
+    "weight": 10
+  },
+  {
+    "file": "component.png",
+    "sockets": {
+      "Up": "III",
+      "Right": "III",
+      "Down": "III",
+      "Left": "III"
+    },
+	"rotations": [0, 1],
+    "weight": 2
+  },
+  {
+    "file": "component.png",
+    "sockets": {
+      "Up": "EEE#",
+      "Right": "III",
+      "Down": "EEE#",
+      "Left": "III"
+    },
+	"rotations": [0, 1],
+    "weight": 1
+  },
+  {
+    "file": "component.png",
+    "sockets": {
+      "Up": "EEE#",
+      "Right": "III",
+      "Down": "III",
+      "Left": "III"
+    },
+	"rotations": "All",
+    "weight": 10
+  },
+  {
+    "file": "component.png",
+    "sockets": {
+      "Up": "EEE#",
+      "Right": "EEE#",
+      "Down": "III",
+      "Left": "III"
+    },
+	"rotations": "All",
+    "weight": 2
+  },
+  {
+    "file": "component.png",
+    "sockets": {
+      "Up": "EEE#",
+      "Right": "EEE#",
+      "Down": "EEE#",
+      "Left": "III"
+    },
+	"rotations": "All",
+    "weight": 0.3
+  },
+  {
+    "file": "component.png",
+    "sockets": {
+      "Up": "EEE#",
+      "Right": "EEE#",
+      "Down": "EEE#",
+      "Left": "EEE#"
+    },
+    "weight": 0.3
+  },
+  {
+    "file": "bridge.png",
+    "sockets": {
+      "Up": "GTG",
+      "Right": "GBG",
+      "Down": "GTG",
+      "Left": "GBG"
+    },
+    "rotations": [0, 1],
+    "weight": 1
+  }
+]
