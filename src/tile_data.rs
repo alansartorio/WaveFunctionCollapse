@@ -1,4 +1,3 @@
-
 use enum_map::enum_map;
 use enum_map::EnumMap;
 use std::error::Error;
@@ -15,8 +14,8 @@ fn load_image(name: &str) -> Result<ImageSurface, Box<dyn Error>> {
     ))?)?)
 }
 
-type Socket = String;
-trait Matches {
+pub type Socket = String;
+pub trait Matches {
     fn matches(&self, other: &Self) -> bool;
 }
 impl Matches for Socket {
@@ -46,16 +45,16 @@ impl<T: Clone> Rotatable for EnumMap<Direction, T> {
 
 pub struct TileData {
     pub image: ImageSurface,
-    pub sockets: EnumMap<Direction, String>,
+    pub sockets: EnumMap<Direction, Socket>,
+    pub weight: f64,
 }
 
-pub fn load_all_tiles() -> Result<Vec<TileData>, Box<dyn Error>> {
+pub fn load_all_tiles(scale: i32) -> Result<Vec<TileData>, Box<dyn Error>> {
     let mut tiles = vec![];
 
     let data = parse_json::parse_tiles(&File::open("images/tiles.json")?)?;
     for tile in data {
         let img = load_image(&tile.file)?;
-        let scale = 4;
         for rotation in tile.rotations {
             let new_rotation =
                 ImageSurface::create(Format::ARgb32, img.width() * scale, img.height() * scale)?;
@@ -75,6 +74,7 @@ pub fn load_all_tiles() -> Result<Vec<TileData>, Box<dyn Error>> {
             tiles.push(TileData {
                 image: new_rotation,
                 sockets: tile.sockets.rotate_n(rotation as u8),
+                weight: tile.weight,
             });
         }
     }

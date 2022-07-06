@@ -1,8 +1,8 @@
+use crate::direction::Direction;
 use enum_map::EnumMap;
 use serde::{Deserialize, Serialize};
 use serde_json;
 use std::io::Read;
-use crate::direction::Direction;
 
 mod rotation_parsing {
     use serde::{
@@ -48,6 +48,10 @@ fn default_rotation() -> Vec<i8> {
     vec![0]
 }
 
+fn default_weight() -> f64 {
+    1.0
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TileEntry {
     pub file: String,
@@ -55,6 +59,8 @@ pub struct TileEntry {
     #[serde(deserialize_with = "rotation_parsing::deserialize")]
     #[serde(default = "default_rotation")]
     pub rotations: Vec<i8>,
+    #[serde(default = "default_weight")]
+    pub weight: f64,
 }
 
 pub fn parse_tiles<R: Read>(r: R) -> Result<Vec<TileEntry>, serde_json::Error> {
