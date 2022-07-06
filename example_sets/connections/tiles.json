@@ -1,0 +1,62 @@
+[
+  {
+    "file": "vertical.png",
+    "sockets": {
+      "Up": "1",
+      "Right": "0",
+      "Down": "1",
+      "Left": "0"
+    },
+	"rotations": [0, 1]
+  },
+  {
+    "file": "all.png",
+    "sockets": {
+      "Up": "1",
+      "Right": "1",
+      "Down": "1",
+      "Left": "1"
+    }
+  },
+  {
+    "file": "threeway.png",
+    "sockets": {
+      "Up": "1",
+      "Right": "1",
+      "Down": "0",
+      "Left": "1"
+    },
+	"rotations": "All"
+  },
+  {
+    "file": "corner.png",
+    "sockets": {
+      "Up": "1",
+      "Right": "1",
+      "Down": "0",
+      "Left": "0"
+    },
+	"rotations": "All"
+  },
+  {
+    "file": "empty.png",
+    "sockets": {
+      "Up": "0",
+      "Right": "0",
+      "Down": "0",
+      "Left": "0"
+    },
+    "weight": 100
+  },
+  {
+    "file": "single.png",
+    "sockets": {
+      "Up": "0",
+      "Right": "1",
+      "Down": "0",
+      "Left": "0"
+    },
+	"rotations": "All",
+    "weight": 0.1
+  }
+]

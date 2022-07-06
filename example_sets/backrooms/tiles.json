@@ -1,0 +1,96 @@
+{
+	"background": "background.png",
+	"tiles": [
+		{
+			"file": "wall-end.png",
+			"sockets": {
+				"Up": "0",
+				"Right": "EN",
+				"Down": "0",
+				"Left": "0"
+			},
+			"rotations": "All"
+		},
+		{
+			"file": "door.png",
+			"sockets": {
+				"Up": "0",
+				"Right": "NE",
+				"Down": "0",
+				"Left": "AX"
+			},
+			"rotations": "All"
+		},
+		{
+			"file": "door.png",
+			"sockets": {
+				"Up": "0",
+				"Right": "AX",
+				"Down": "0",
+				"Left": "AX"
+			},
+			"rotations": [0, 1]
+		},
+		{
+			"file": "wall.png",
+			"sockets": {
+				"Up": "NE",
+				"Right": "0",
+				"Down": "AX",
+				"Left": "0"
+			},
+			"rotations": "All",
+			"weight": 10
+		},
+		{
+			"file": "wall.png",
+			"sockets": {
+				"Up": "AX",
+				"Right": "0",
+				"Down": "AX",
+				"Left": "0"
+			},
+			"rotations": [0, 1],
+			"weight": 10
+		},
+		{
+			"file": "threeway.png",
+			"sockets": {
+				"Up": "XA",
+				"Right": "XA",
+				"Down": "0",
+				"Left": "XA"
+			},
+			"rotations": "All"
+		},
+		{
+			"file": "full.png",
+			"sockets": {
+				"Up": "XA",
+				"Right": "XA",
+				"Down": "XA",
+				"Left": "XA"
+			}
+		},
+		{
+			"file": "empty.png",
+			"sockets": {
+				"Up": "0",
+				"Right": "0",
+				"Down": "0",
+				"Left": "0"
+			},
+			"weight": 10
+		},
+		{
+			"file": "entity.png",
+			"sockets": {
+				"Up": "0",
+				"Right": "0",
+				"Down": "0",
+				"Left": "0"
+			},
+			"weight": 0.01
+		}
+	]
+}
